@@ -23,8 +23,16 @@ for tsp_file in tsp_files:
     tsp_dict[tsp_file[:-4]] = file_contents
 
 # Update the TSP_utils.py file with the dictionary contents
-TSP_utils_path = os.path.join(funsearch_path, "TSP_utils.py")
-with open(TSP_utils_path, 'a') as utils_file:
+TSP_utils_path = os.path.join(funsearch_path, "TSP_utils_test.py")
+with open(TSP_utils_path, 'w') as utils_file:
+    utils_file.write("""# @title
+        from __future__ import annotations
+        import numpy as np
+        from typing import Tuple
+
+        datasets = {}
+
+        # Data from the TSPLIB""")
     utils_file.write("datasets['TSPLIB'] = {\n")
     for key, value in tsp_dict.items():
         utils_file.write(f"'{key}':\"\"\"{value}\"\"\",\n")
