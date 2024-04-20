@@ -61,7 +61,7 @@ class LLMAPI(sampler.LLM):
 
     def __init__(self, samples_per_prompt: int, trim=True):
         super().__init__(samples_per_prompt)
-        additional_prompt = ('Complete a different and more complex Python function. '
+        additional_prompt = ('Complete a different and better Python function. '
                              'Be creative and you can insert multiple if-else and for-loop in the code logic.'
                              'Only output the Python code, no descriptions.')
         self._additional_prompt = additional_prompt
@@ -77,8 +77,8 @@ class LLMAPI(sampler.LLM):
             try:
                 conn = http.client.HTTPSConnection("api.chatanywhere.com.cn")
                 payload = json.dumps({
-                    "max_tokens": 512,
-                    "model": "gpt-3.5-turbo",
+                    "max_tokens": 512, # The maximum token size to prevent over usage
+                    "model": "gpt-3.5-turbo", # The default version of ChatGPT
                     "messages": [
                         {
                             "role": "user",
@@ -300,7 +300,7 @@ def select_next_node(current_node: int, unvisited_nodes: list, distance_matrix: 
 # Because the inner code uses multiprocess evaluation.
 if __name__ == '__main__':
     class_config = config.ClassConfig(llm_class=LLMAPI, sandbox_class=Sandbox)
-    config = config.Config(samples_per_prompt=4, evaluate_timeout_seconds=60)
+    config = config.Config(samples_per_prompt=4, evaluate_timeout_seconds=30)
 
     global_max_sample_num = 10  # if it is set to None, funsearch will execute an endless loop
     funsearch.main(
